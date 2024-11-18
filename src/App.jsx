@@ -1,7 +1,7 @@
+// src/App.jsx
 import React from 'react';
 import RoastForm from './components/RoastForm';
 import PaymentModal from './components/PaymentModal';
-import CountdownModal from './components/CountdownModal';
 
 const App = () => {
   return (
@@ -13,7 +13,6 @@ const App = () => {
         <RoastForm />
       </div>
       <PaymentModal />
-      <CountdownModal />
     </div>
   );
 };

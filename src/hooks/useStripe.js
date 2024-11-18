@@ -1,5 +1,5 @@
 // src/hooks/useStripe.js
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 
 const stripePromise = loadStripe('pk_test_51QLoJmFSKrtODH18wcVauQoeBU4dTWXMvcdcJXOR2PF3ndh4HoB8nPL1A6Tysi6QdBtyTva7BPdTvyxkn3pwtECM00pHNJCEut');
@@ -9,24 +9,22 @@ export const useStripe = () => {
   const [elements, setElements] = useState(null);
   const [paymentError, setPaymentError] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [clientSecret, setClientSecret] = useState(null);
 
   useEffect(() => {
-    // Check for payment confirmation
     const checkPayment = async () => {
-      const clientSecret = new URLSearchParams(window.location.search).get(
+      const urlClientSecret = new URLSearchParams(window.location.search).get(
         'payment_intent_client_secret'
       );
 
-      if (clientSecret) {
+      if (urlClientSecret) {
         const stripe = await stripePromise;
-        const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+        const { paymentIntent } = await stripe.retrievePaymentIntent(urlClientSecret);
         if (paymentIntent && paymentIntent.status === 'succeeded') {
-          // Clear stored data
-          localStorage.removeItem('roastFormData');
-          // Initiate call
           const storedData = localStorage.getItem('roastFormData');
           if (storedData) {
-            initiateRoastCall(JSON.parse(storedData));
+            await initiateRoastCall(JSON.parse(storedData));
+            localStorage.removeItem('roastFormData');
           }
         }
       }
@@ -35,12 +33,30 @@ export const useStripe = () => {
     checkPayment();
   }, []);
 
+  const mountPaymentElement = useCallback(async (domElement) => {
+    if (!clientSecret || !domElement) return;
+
+    const stripe = await stripePromise;
+    const newElements = stripe.elements({
+      clientSecret,
+      appearance: {
+        theme: 'night',
+        variables: {
+          colorPrimary: '#f59e0b',
+        },
+      },
+    });
+
+    const paymentElement = newElements.create('payment');
+    paymentElement.mount(domElement);
+    setElements(newElements);
+  }, [clientSecret]);
+
   const initializePayment = async (formData) => {
     setIsProcessing(true);
     setPaymentError('');
 
     try {
-      // Save form data to localStorage
       localStorage.setItem('roastFormData', JSON.stringify(formData));
 
       const response = await fetch('/api/create-payment-intent', {
@@ -55,28 +71,13 @@ export const useStripe = () => {
         throw new Error('Payment setup failed');
       }
 
-      const { clientSecret } = await response.json();
-      const stripe = await stripePromise;
-
-      const newElements = stripe.elements({
-        clientSecret,
-        appearance: {
-          theme: 'night',
-          variables: {
-            colorPrimary: '#f59e0b',
-          },
-        },
-      });
-
-      const paymentElement = newElements.create('payment');
-      paymentElement.mount('#payment-element');
-
-      setElements(newElements);
+      const { clientSecret: newClientSecret } = await response.json();
+      setClientSecret(newClientSecret);
       setIsOpen(true);
     } catch (error) {
       console.error('Error:', error);
       setPaymentError(error.message);
-      localStorage.removeItem('roastFormData'); // Clear stored data on error
+      localStorage.removeItem('roastFormData');
       throw error;
     } finally {
       setIsProcessing(false);
@@ -98,7 +99,6 @@ export const useStripe = () => {
         },
       });
 
-      // Only reached if there's an immediate error
       if (error) {
         throw error;
       }
@@ -113,16 +113,12 @@ export const useStripe = () => {
 
   const closeModal = () => {
     setIsOpen(false);
+    setClientSecret(null);
     if (elements) {
       elements.destroy();
+      setElements(null);
     }
     localStorage.removeItem('roastFormData');
-  };
-
-  const handleOutsideClick = (event) => {
-    if (event.target.id === 'payment-modal') {
-      closeModal();
-    }
   };
 
   return {
@@ -132,11 +128,10 @@ export const useStripe = () => {
     closeModal,
     handlePayment,
     initializePayment,
-    handleOutsideClick,
+    mountPaymentElement,
   };
 };
 
-// Helper function to initiate roast call
 async function initiateRoastCall(formData) {
   try {
     const callResponse = await fetch('https://roast-call-proxy.vercel.app/proxy/call', {
@@ -156,7 +151,6 @@ async function initiateRoastCall(formData) {
       throw new Error('Failed to initiate call');
     }
 
-    // Start countdown will be handled by the countdown component
     return true;
   } catch (error) {
     console.error('Call initiation error:', error);
