@@ -42,3 +42,5 @@ const PaymentModal = ({ isOpen, onClose, onSubmit, isProcessing, paymentError })
     </div>
   );
 };
+
+export default PaymentModal;
