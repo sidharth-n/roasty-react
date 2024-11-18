@@ -1,7 +1,5 @@
-// src/App.jsx
 import React from 'react';
 import RoastForm from './components/RoastForm';
-import PaymentModal from './components/PaymentModal';
 
 const App = () => {
   return (
@@ -12,7 +10,6 @@ const App = () => {
         </h1>
         <RoastForm />
       </div>
-      <PaymentModal />
     </div>
   );
 };
