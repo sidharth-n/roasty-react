@@ -1,23 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import RoastForm from './components/RoastForm';
 import CountdownModal from './components/CountdownModal';
-import { Analytics } from "@vercel/analytics/react"
-
-interface FormData {
-  name: string;
-  job: string;
-  description: string;
-  phone: string;
-  countryCode: string;
-}
+import { TermsModal } from './components/TermsModal';
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showCountdown, setShowCountdown] = useState(false);
   const [timeLeft, setTimeLeft] = useState(60);
+  const [showTerms, setShowTerms] = useState(true);
+  const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false);
 
-  const initiateRoastCall = async (formData: FormData) => {
+  useEffect(() => {
+    const accepted = localStorage.getItem('termsAccepted');
+    if (accepted) {
+      setShowTerms(false);
+      setHasAcceptedTerms(true);
+    }
+  }, []);
+
+  const handleTermsAccept = () => {
+    localStorage.setItem('termsAccepted', 'true');
+    setShowTerms(false);
+    setHasAcceptedTerms(true);
+  };
+
+  const initiateRoastCall = async (formData) => {
+    if (!hasAcceptedTerms) {
+      setShowTerms(true);
+      return;
+    }
+
     try {
+      setIsSubmitting(true);
       const response = await fetch('https://roast-call-proxy.vercel.app/proxy/call', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -32,14 +47,11 @@ function App() {
         })
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to initiate call');
-      }
-
+      if (!response.ok) throw new Error('Call failed');
       startCountdown();
     } catch (error) {
-      console.error('Call initiation error:', error);
-      alert('Failed to initiate call: ' + (error as Error).message);
+      console.error('Call error:', error);
+      alert('Failed to make call: ' + error.message);
       setIsSubmitting(false);
     }
   };
@@ -61,30 +73,28 @@ function App() {
     }, 1000);
   };
 
-  const handleSubmit = async (formData: FormData) => {
-    setIsSubmitting(true);
-    await initiateRoastCall(formData);
-  };
-
   return (
     <div className="min-h-screen py-4 px-4">
       <div className="max-w-lg mx-auto app-container rounded-xl shadow-2xl p-6">
-        <h1 className="text-3xl font-extrabold mb-8 gradient-text">
+        <h1 className="text-2xl md:text-3xl font-extrabold mb-6 gradient-text">
           Roast Your Friend 🔥
         </h1>
         
         <RoastForm 
-          onSubmit={handleSubmit}
+          onSubmit={initiateRoastCall}
           isSubmitting={isSubmitting}
         />
       </div>
 
+      {showTerms && <TermsModal onAccept={handleTermsAccept} />}
+      
       <CountdownModal 
         isVisible={showCountdown}
         timeLeft={timeLeft}
         progress={((60 - timeLeft) / 60) * 100}
       />
-       <Analytics />
+      
+      <Analytics />
     </div>
   );
 }
