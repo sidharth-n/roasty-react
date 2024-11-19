@@ -94,7 +94,7 @@ export const TermsModal = ({ onAccept }) => {
               className="mt-1 h-4 w-4 rounded border-gray-600 text-amber-500"
             />
             <span className="text-xs text-gray-300">
-              I have read, understood, and agree to the Terms & Conditions. I acknowledge that calls are recorded and take full responsibility for obtaining recipient consent.
+              I have read, understood, and agree to the Terms & Conditions.
             </span>
           </label>
 
