@@ -12,12 +12,12 @@ export const TermsModal = ({ onAccept }) => {
         
         <div className="p-4 overflow-y-auto text-sm space-y-4 text-gray-300" style={{  backgroundColor: "#2a2a2a"}}>
           <section>
-            <h3 className="font-semibold text-base mb-2 text-amber-500">1. Service Overview</h3>
+            <h3 className="font-semibold text-base mb-2 ">1. Service Overview</h3>
             <p>RoastCall provides AI-generated comedic roast calls for entertainment purposes. Our service uses advanced AI technology to create humorous content based on provided information.</p>
           </section>
 
           <section>
-            <h3 className="font-semibold text-base mb-2 text-amber-500">2. User Eligibility & Responsibilities</h3>
+            <h3 className="font-semibold text-base mb-2 ">2. User Eligibility & Responsibilities</h3>
             <ul className="list-disc pl-4 space-y-2">
               <li>Must be 18 years or older to use the service</li>
               <li>Required to obtain explicit consent from call recipients</li>
@@ -28,7 +28,7 @@ export const TermsModal = ({ onAccept }) => {
           </section>
 
           <section>
-            <h3 className="font-semibold text-base mb-2 text-amber-500">3. Service Usage & Limitations</h3>
+            <h3 className="font-semibold text-base mb-2 ">3. Service Usage & Limitations</h3>
             <ul className="list-disc pl-4 space-y-2">
               <li>Calls are limited to specified duration based on credits</li>
               <li>Service may be unavailable during maintenance</li>
@@ -38,7 +38,7 @@ export const TermsModal = ({ onAccept }) => {
           </section>
 
           <section>
-            <h3 className="font-semibold text-base mb-2 text-amber-500">4. Legal Disclaimers</h3>
+            <h3 className="font-semibold text-base mb-2">4. Legal Disclaimers</h3>
             <ul className="list-disc pl-4 space-y-2">
               <li>Service provided "as is" without warranties</li>
               <li>Users assume all risks associated with usage</li>
@@ -49,7 +49,7 @@ export const TermsModal = ({ onAccept }) => {
           </section>
 
           <section>
-            <h3 className="font-semibold text-base mb-2 text-amber-500">5. Privacy & Data Collection</h3>
+            <h3 className="font-semibold text-base mb-2 ">5. Privacy & Data Collection</h3>
             <ul className="list-disc pl-4 space-y-2">
               <li>All calls are recorded and stored securely</li>
               <li>Call data retained for quality and safety</li>
@@ -60,7 +60,7 @@ export const TermsModal = ({ onAccept }) => {
           </section>
 
           <section>
-            <h3 className="font-semibold text-base mb-2 text-amber-500">6. Content & Behavior</h3>
+            <h3 className="font-semibold text-base mb-2 ">6. Content & Behavior</h3>
             <ul className="list-disc pl-4 space-y-2">
               <li>No hate speech or discriminatory content</li>
               <li>No threats or intimidation</li>
@@ -70,7 +70,7 @@ export const TermsModal = ({ onAccept }) => {
           </section>
 
           <section>
-            <h3 className="font-semibold text-base mb-2 text-amber-500">7. Payment & Credits</h3>
+            <h3 className="font-semibold text-base mb-2 ">7. Payment & Credits</h3>
             <ul className="list-disc pl-4 space-y-2">
               <li>Credits are non-refundable</li>
               <li>Purchases are final</li>
@@ -80,7 +80,7 @@ export const TermsModal = ({ onAccept }) => {
           </section>
 
           <section>
-            <h3 className="font-semibold text-base mb-2 text-amber-500">8. Contact & Support</h3>
+            <h3 className="font-semibold text-base mb-2 ">8. Contact & Support</h3>
             <p>For support inquiries or legal concerns, contact our support team. Response times vary based on inquiry type.</p>
           </section>
         </div>
