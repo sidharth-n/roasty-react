@@ -61,3 +61,8 @@
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }
 }
+.gradient-text {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
