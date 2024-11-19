@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import RoastForm from './components/RoastForm';
-import CountdownModal from './components/CountdownModal';
+import SupportModal from './components/SupportModal';
 import { TermsModal } from './components/TermsModal';
 import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showCountdown, setShowCountdown] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [showSupport, setShowSupport] = useState(false);
   const [showTerms, setShowTerms] = useState(true);
   const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false);
 
@@ -23,6 +22,11 @@ function App() {
     localStorage.setItem('termsAccepted', 'true');
     setShowTerms(false);
     setHasAcceptedTerms(true);
+  };
+
+  const handleDonate = () => {
+    // Replace with your actual Stripe payment link
+    window.location.href = 'https://buy.stripe.com/fZefZp3U6dLsgNOdQQ';
   };
 
   const initiateRoastCall = async (formData) => {
@@ -48,7 +52,9 @@ function App() {
       });
 
       if (!response.ok) throw new Error('Call failed');
-      startCountdown();
+      
+      // Show support modal instead of countdown
+      setShowSupport(true);
     } catch (error) {
       console.error('Call error:', error);
       alert('Failed to make call: ' + error.message);
@@ -56,21 +62,9 @@ function App() {
     }
   };
 
-  const startCountdown = () => {
-    setShowCountdown(true);
-    setTimeLeft(60);
-
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          setShowCountdown(false);
-          setIsSubmitting(false);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+  const handleSupportClose = () => {
+    setShowSupport(false);
+    setIsSubmitting(false);
   };
 
   return (
@@ -88,10 +82,10 @@ function App() {
 
       {showTerms && <TermsModal onAccept={handleTermsAccept} />}
       
-      <CountdownModal 
-        isVisible={showCountdown}
-        timeLeft={timeLeft}
-        progress={((60 - timeLeft) / 60) * 100}
+      <SupportModal 
+        isVisible={showSupport}
+        onClose={handleSupportClose}
+        onDonate={handleDonate}
       />
       
       <Analytics />
