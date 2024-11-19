@@ -1,3 +1,63 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #1a1a1a;
+    color: #e5e7eb;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    margin-top: 30px;
+  }
+}
+
+.app-container {
+  background-color: #2a2a2a;
+}
+
+.input-field {
+  background-color: #1a1a1a;
+  border-color: #374151;
+  color: #e5e7eb;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 400;
+}
+
+.input-field:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.1);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 800;
+}
+
+.heading-text {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 600;
+}
+
+.button-text {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 700;
+}
+
+.countdown-container {
+  backdrop-filter: blur(8px);
+}
+
+.countdown-number {
+  font-size: 4rem;
+  line-height: 1;
+  font-weight: 800;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
