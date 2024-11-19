@@ -144,7 +144,7 @@ const RoastForm: React.FC<RoastFormProps> = ({ onSubmit, isSubmitting }) => {
             </button>
             
             {isDropdownOpen && (
-              <div className="absolute z-50 mt-1 w-full bg-gray-800 border border-gray-700 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+  <div className="absolute z-50 bottom-full mb-1 w-full bg-gray-800 border border-gray-700 rounded-lg shadow-lg max-h-48 overflow-y-auto">
                 <div className="py-1">
                   {COUNTRY_CODES.map(code => (
                     <button
