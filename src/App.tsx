@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import RoastForm from './components/RoastForm';
 import CountdownModal from './components/CountdownModal';
+import { Analytics } from "@vercel/analytics/react"
 
 interface FormData {
   name: string;
@@ -83,6 +84,7 @@ function App() {
         timeLeft={timeLeft}
         progress={((60 - timeLeft) / 60) * 100}
       />
+       <Analytics />
     </div>
   );
 }
