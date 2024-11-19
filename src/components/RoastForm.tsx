@@ -13,42 +13,67 @@ interface RoastFormProps {
 }
 
 const COUNTRY_CODES = [
-  { value: '+91', label: '🇮🇳 +91' },
-  { value: '+1', label: '🇺🇸 +1' },
-  { value: '+44', label: '🇬🇧 +44' },
-  { value: '+61', label: '🇦🇺 +61' },
-  { value: '+81', label: '🇯🇵 +81' },
-  { value: '+49', label: '🇩🇪 +49' },
-  { value: '+33', label: '🇫🇷 +33' },
-  { value: '+39', label: '🇮🇹 +39' },
-  { value: '+7', label: '🇷🇺 +7' },
-  { value: '+86', label: '🇨🇳 +86' },
-  { value: '+34', label: '🇪🇸 +34' },
-  { value: '+55', label: '🇧🇷 +55' },
-  { value: '+27', label: '🇿🇦 +27' },
-  { value: '+64', label: '🇳🇿 +64' },
-  { value: '+46', label: '🇸🇪 +46' },
-  { value: '+31', label: '🇳🇱 +31' },
-  { value: '+41', label: '🇨🇭 +41' },
-  { value: '+52', label: '🇲🇽 +52' },
-  { value: '+351', label: '🇵🇹 +351' },
-  { value: '+65', label: '🇸🇬 +65' },
-  { value: '+82', label: '🇰🇷 +82' },
-  { value: '+90', label: '🇹🇷 +90' },
-  { value: '+62', label: '🇮🇩 +62' },
-  { value: '+20', label: '🇪🇬 +20' },
-  { value: '+94', label: '🇱🇰 +94' },
-  { value: '+60', label: '🇲🇾 +60' },
-  { value: '+966', label: '🇸🇦 +966' },
-  { value: '+92', label: '🇵🇰 +92' },
-  { value: '+234', label: '🇳🇬 +234' },
-  { value: '+977', label: '🇳🇵 +977' },
-  { value: '+971', label: '🇦🇪 +971' },
-  { value: '+48', label: '🇵🇱 +48' },
-  { value: '+358', label: '🇫🇮 +358' },
-  { value: '+420', label: '🇨🇿 +420' },
-  { value: '+30', label: '🇬🇷 +30' },
-  { value: '+380', label: '🇺🇦 +380' },
+  { value: '+91', label: '🇮🇳 +91' },   // India
+  { value: '+1', label: '🇺🇸 +1' },    // USA
+  { value: '+44', label: '🇬🇧 +44' },   // UK
+  { value: '+353', label: '🇮🇪 +353' }, // Ireland
+  { value: '+61', label: '🇦🇺 +61' },   // Australia
+  { value: '+81', label: '🇯🇵 +81' },   // Japan
+  { value: '+49', label: '🇩🇪 +49' },   // Germany
+  { value: '+33', label: '🇫🇷 +33' },   // France
+  { value: '+39', label: '🇮🇹 +39' },   // Italy
+  { value: '+7', label: '🇷🇺 +7' },     // Russia
+  { value: '+86', label: '🇨🇳 +86' },   // China
+  { value: '+34', label: '🇪🇸 +34' },   // Spain
+  { value: '+55', label: '🇧🇷 +55' },   // Brazil
+  { value: '+27', label: '🇿🇦 +27' },   // South Africa
+  { value: '+64', label: '🇳🇿 +64' },   // New Zealand
+  { value: '+46', label: '🇸🇪 +46' },   // Sweden
+  { value: '+31', label: '🇳🇱 +31' },   // Netherlands
+  { value: '+41', label: '🇨🇭 +41' },   // Switzerland
+  { value: '+52', label: '🇲🇽 +52' },   // Mexico
+  { value: '+351', label: '🇵🇹 +351' }, // Portugal
+  { value: '+65', label: '🇸🇬 +65' },   // Singapore
+  { value: '+82', label: '🇰🇷 +82' },   // South Korea
+  { value: '+90', label: '🇹🇷 +90' },   // Turkey
+  { value: '+62', label: '🇮🇩 +62' },   // Indonesia
+  { value: '+20', label: '🇪🇬 +20' },   // Egypt
+  { value: '+94', label: '🇱🇰 +94' },   // Sri Lanka
+  { value: '+60', label: '🇲🇾 +60' },   // Malaysia
+  { value: '+966', label: '🇸🇦 +966' }, // Saudi Arabia
+  { value: '+92', label: '🇵🇰 +92' },   // Pakistan
+  { value: '+234', label: '🇳🇬 +234' }, // Nigeria
+  { value: '+977', label: '🇳🇵 +977' }, // Nepal
+  { value: '+971', label: '🇦🇪 +971' }, // UAE
+  { value: '+48', label: '🇵🇱 +48' },   // Poland
+  { value: '+358', label: '🇫🇮 +358' }, // Finland
+  { value: '+420', label: '🇨🇿 +420' }, // Czech Republic
+  { value: '+30', label: '🇬🇷 +30' },   // Greece
+  { value: '+380', label: '🇺🇦 +380' }, // Ukraine
+  { value: '+45', label: '🇩🇰 +45' },   // Denmark
+  { value: '+47', label: '🇳🇴 +47' },   // Norway
+  { value: '+32', label: '🇧🇪 +32' },   // Belgium
+  { value: '+43', label: '🇦🇹 +43' },   // Austria
+  { value: '+36', label: '🇭🇺 +36' },   // Hungary
+  { value: '+40', label: '🇷🇴 +40' },   // Romania
+  { value: '+359', label: '🇧🇬 +359' }, // Bulgaria
+  { value: '+385', label: '🇭🇷 +385' }, // Croatia
+  { value: '+63', label: '🇵🇭 +63' },   // Philippines
+  { value: '+66', label: '🇹🇭 +66' },   // Thailand
+  { value: '+84', label: '🇻🇳 +84' },   // Vietnam
+  { value: '+506', label: '🇨🇷 +506' }, // Costa Rica
+  { value: '+972', label: '🇮🇱 +972' }, // Israel
+  { value: '+354', label: '🇮🇸 +354' }, // Iceland
+  { value: '+371', label: '🇱🇻 +371' }, // Latvia
+  { value: '+370', label: '🇱🇹 +370' }, // Lithuania
+  { value: '+352', label: '🇱🇺 +352' }, // Luxembourg
+  { value: '+356', label: '🇲🇹 +356' }, // Malta
+  { value: '+886', label: '🇹🇼 +886' }, // Taiwan
+  { value: '+852', label: '🇭🇰 +852' }, // Hong Kong
+  { value: '+961', label: '🇱🇧 +961' }, // Lebanon
+  { value: '+880', label: '🇧🇩 +880' }, // Bangladesh
+  { value: '+855', label: '🇰🇭 +855' }, // Cambodia
+  { value: '+95', label: '🇲🇲 +95' },   // Myanmar
 ];
 
 const RoastForm: React.FC<RoastFormProps> = ({ onSubmit, isSubmitting }) => {
