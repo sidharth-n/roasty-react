@@ -13,7 +13,7 @@ export const TermsModal = ({ onAccept }) => {
         <div className="p-4 overflow-y-auto text-sm space-y-4 text-gray-300" style={{  backgroundColor: "#2a2a2a"}}>
           <section>
             <h3 className="font-semibold text-base mb-2 ">1. Service Overview</h3>
-            <p>RoastCall provides AI-generated comedic roast calls for entertainment purposes. Our service uses advanced AI technology to create humorous content based on provided information.</p>
+            <p>RoastYourFriend provides AI-generated comedic roast calls for entertainment purposes. Our service uses advanced AI technology to create humorous content based on provided information.</p>
           </section>
 
           <section>
