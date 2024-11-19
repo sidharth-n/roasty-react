@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 interface RoastFormProps {
   onSubmit: (formData: {
@@ -50,7 +51,6 @@ const COUNTRY_CODES = [
   { value: '+380', label: '🇺🇦 +380' },
 ];
 
-
 const RoastForm: React.FC<RoastFormProps> = ({ onSubmit, isSubmitting }) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -59,6 +59,19 @@ const RoastForm: React.FC<RoastFormProps> = ({ onSubmit, isSubmitting }) => {
     phone: '',
     countryCode: '+91',
   });
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -120,17 +133,37 @@ const RoastForm: React.FC<RoastFormProps> = ({ onSubmit, isSubmitting }) => {
           Their Doom Number ☎️
         </label>
         <div className="flex space-x-2">
-          <select 
-            className="input-field rounded-lg px-2 py-2.5 focus:outline-none w-24"
-            value={formData.countryCode}
-            onChange={e => setFormData(prev => ({ ...prev, countryCode: e.target.value }))}
-          >
-            {COUNTRY_CODES.map(code => (
-              <option key={code.value} value={code.value}>
-                {code.label}
-              </option>
-            ))}
-          </select>
+          <div className="relative w-32" ref={dropdownRef}>
+            <button
+              type="button"
+              className="input-field w-full rounded-lg px-2 py-2.5 focus:outline-none flex items-center justify-between"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
+              <span>{COUNTRY_CODES.find(code => code.value === formData.countryCode)?.label}</span>
+              <ChevronDown className={`w-4 h-4 transform transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {isDropdownOpen && (
+              <div className="absolute z-50 mt-1 w-full bg-gray-800 border border-gray-700 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                <div className="py-1">
+                  {COUNTRY_CODES.map(code => (
+                    <button
+                      key={code.value}
+                      type="button"
+                      className="w-full px-3 py-2 text-left hover:bg-gray-700 text-sm flex items-center space-x-2 transition-colors"
+                      onClick={() => {
+                        setFormData(prev => ({ ...prev, countryCode: code.value }));
+                        setIsDropdownOpen(false);
+                      }}
+                    >
+                      <span>{code.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          
           <input 
             type="tel" 
             required 
