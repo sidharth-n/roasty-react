@@ -13,61 +13,63 @@ const LandingModal: React.FC<LandingModalProps> = ({ onGetStarted, isVisible }) 
     <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 p-4">
       <div className="bg-gray-800/90 rounded-xl w-full max-w-md mx-auto border border-gray-700 shadow-xl">
         <div className="p-4 md:p-6 space-y-4">
-          {/* Header */}
           <div className="text-center space-y-2">
             <h1 className="text-2xl md:text-3xl font-extrabold gradient-text">
               Roast Your Friend 🔥
             </h1>
             <p className="text-sm md:text-base text-gray-300">
-              AI-Powered Roast Calls That'll Make Your Friends Question Their Life Choices
+              The Most Hilarious AI Roasting Agent in History, Just a click away!
             </p>
           </div>
 
-          {/* Features */}
-          <div className="grid grid-cols-3 gap-2 text-center">
-            <div className="space-y-1">
+          <div className="grid grid-cols-3 gap-3 text-center py-2">
+            <div className="space-y-1.5 bg-gray-900/40 p-2 rounded-lg">
               <Phone className="w-6 h-6 mx-auto text-amber-500" />
-              <p className="text-xs text-gray-400">AI Voice Calls</p>
+              <p className="text-xs text-gray-300 font-medium">AI Voice Calls</p>
             </div>
-            <div className="space-y-1">
+            <div className="space-y-1.5 bg-gray-900/40 p-2 rounded-lg">
               <Heart className="w-6 h-6 mx-auto text-amber-500" />
-              <p className="text-xs text-gray-400">Free & Fun</p>
+              <p className="text-xs text-gray-300 font-medium">Free & Fun</p>
             </div>
-            <div className="space-y-1">
+            <div className="space-y-1.5 bg-gray-900/40 p-2 rounded-lg">
               <Globe className="w-6 h-6 mx-auto text-amber-500" />
-              <p className="text-xs text-gray-400">Global Roasts</p>
+              <p className="text-xs text-gray-300 font-medium">Global Roasts</p>
             </div>
           </div>
 
-          {/* Mission Statement */}
-          <div className="text-center bg-gray-900/50 p-3 rounded-lg">
-            <p className="text-xs md:text-sm text-gray-300">
-              We're keeping these roasts free to spread laughter worldwide! Your support helps keep the roasts rolling! 🙌
+          <div className="text-center bg-gradient-to-br from-gray-900/60 to-gray-800/60 p-4 rounded-lg border border-gray-700/50">
+            <p className="text-sm text-gray-200">
+              We're keeping these legendary roasts absolutely free because laughter should be unlimited! 
+              <span className="block mt-2 text-amber-400 font-medium">
+                If our AI makes you laugh (which it definitely will), consider supporting us to keep the roasts rolling worldwide! 🌍
+              </span>
             </p>
           </div>
 
-          {/* CTA Buttons */}
-          <div className="space-y-2">
+          <div className="space-y-3 pt-2">
             <button
               onClick={onGetStarted}
-              className="w-full py-3 px-4 rounded-lg text-gray-900 font-bold transition-all transform hover:scale-105 button-text"
-              style={{ background: 'linear-gradient(135deg, #d8cbb2, #e27b06)' }}
+              className="w-full py-3.5 px-4 rounded-lg text-gray-900 font-bold transition-all transform hover:scale-105 hover:shadow-lg"
+              style={{ background: 'linear-gradient(135deg, #fbbf24, #d97706)' }}
             >
-              Start Roasting Now 🔥
+             Start Roasting 🔥
             </button>
 
             <a
               href="https://buy.stripe.com/fZefZp3U6dLsgNOdQQ"
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full py-3 px-4 rounded-lg font-bold transition-all transform hover:scale-105 text-gray-900 text-center"
-              style={{ background: 'linear-gradient(135deg, #fbbf24, #d97706)' }}
+              className="block w-full py-3.5 px-4 rounded-lg font-bold transition-all transform hover:scale-105 hover:shadow-lg text-center bg-gradient-to-r from-emerald-500 to-emerald-600"
             >
-              <span className="flex items-center justify-center gap-2">
+              <span className="flex items-center justify-center gap-2 text-gray-900">
                 <Coffee className="w-5 h-5" />
-                <span>Support Our Roasts</span>
+                <span>Support the Laughter </span>
               </span>
             </a>
+
+            <p className="text-xs text-center text-gray-400">
+              No limits. No cost. Just pure roasting fun!
+            </p>
           </div>
         </div>
       </div>
