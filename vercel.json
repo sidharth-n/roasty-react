@@ -1,11 +1,5 @@
 {
   "version": 2,
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    }
-  ],
   "redirects": [
     {
       "source": "http://:path*",
@@ -22,6 +16,12 @@
       ],
       "destination": "https://www.roastyourfriend.fun/:path*",
       "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
     }
   ]
 }
