@@ -65,7 +65,7 @@ const LandingModal: React.FC<LandingModalProps> = ({ onGetStarted, isVisible }) 
             >
               <span className="flex items-center justify-center gap-2">
                 <Coffee className="w-5 h-5" />
-                <span>Support Our Roasts ☕️</span>
+                <span>Support Our Roasts</span>
               </span>
             </a>
           </div>
