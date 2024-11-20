@@ -1,27 +1,22 @@
 {
   "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/:match*",
+      "destination": "/api/:match*"
+    }
+  ],
   "redirects": [
     {
-      "source": "http://:path*",
-      "destination": "https://:path*",
-      "permanent": true
-    },
-    {
-      "source": "/:path*",
+      "source": "/:match*",
       "has": [
         {
           "type": "host",
           "value": "roastyourfriend.fun"
         }
       ],
-      "destination": "https://www.roastyourfriend.fun/:path*",
+      "destination": "https://www.roastyourfriend.fun/:match*",
       "permanent": true
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
     }
   ]
 }
