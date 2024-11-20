@@ -1,40 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import RoastForm from './components/RoastForm';
 import SupportModal from './components/SupportModal';
 import { TermsModal } from './components/TermsModal';
+import LandingModal from './components/LandingModal';
 import { Analytics } from "@vercel/analytics/react";
 
 function App() {
+  const [currentStep, setCurrentStep] = useState<'landing' | 'terms' | 'form'>('landing');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
-  const [showTerms, setShowTerms] = useState(true);
-  const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false);
 
-  useEffect(() => {
-    const accepted = localStorage.getItem('termsAccepted');
-    if (accepted) {
-      setShowTerms(false);
-      setHasAcceptedTerms(true);
-    }
-  }, []);
+  const handleGetStarted = () => {
+    setCurrentStep('terms');
+  };
 
   const handleTermsAccept = () => {
-    localStorage.setItem('termsAccepted', 'true');
-    setShowTerms(false);
-    setHasAcceptedTerms(true);
+    setCurrentStep('form');
   };
 
   const handleDonate = () => {
-    // Replace with your actual Stripe payment link
     window.location.href = 'https://buy.stripe.com/fZefZp3U6dLsgNOdQQ';
   };
 
   const initiateRoastCall = async (formData) => {
-    if (!hasAcceptedTerms) {
-      setShowTerms(true);
-      return;
-    }
-
     try {
       setIsSubmitting(true);
       const response = await fetch('https://roast-call-proxy.vercel.app/proxy/call', {
@@ -52,8 +40,6 @@ function App() {
       });
 
       if (!response.ok) throw new Error('Call failed');
-      
-      // Show support modal instead of countdown
       setShowSupport(true);
     } catch (error) {
       console.error('Call error:', error);
@@ -69,18 +55,25 @@ function App() {
 
   return (
     <div className="min-h-screen py-4 px-4">
-      <div className="max-w-lg mx-auto app-container rounded-xl shadow-2xl p-6">
-        <h1 className="text-2xl md:text-3xl font-extrabold mb-6 gradient-text">
-          Roast Your Friend 🔥
-        </h1>
-        
-        <RoastForm 
-          onSubmit={initiateRoastCall}
-          isSubmitting={isSubmitting}
-        />
-      </div>
+      {currentStep === 'form' && (
+        <div className="max-w-lg mx-auto app-container rounded-xl shadow-2xl p-6">
+          <h1 className="text-2xl md:text-3xl font-extrabold mb-6 gradient-text">
+            Roast Your Friend 🔥
+          </h1>
+          
+          <RoastForm 
+            onSubmit={initiateRoastCall}
+            isSubmitting={isSubmitting}
+          />
+        </div>
+      )}
 
-      {showTerms && <TermsModal onAccept={handleTermsAccept} />}
+      <LandingModal 
+        isVisible={currentStep === 'landing'} 
+        onGetStarted={handleGetStarted}
+      />
+      
+      {currentStep === 'terms' && <TermsModal onAccept={handleTermsAccept} />}
       
       <SupportModal 
         isVisible={showSupport}
