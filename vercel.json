@@ -5,5 +5,23 @@
       "src": "/api/(.*)",
       "dest": "/api/$1"
     }
+  ],
+  "redirects": [
+    {
+      "source": "http://:path*",
+      "destination": "https://:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "roastyourfriend.fun"
+        }
+      ],
+      "destination": "https://www.roastyourfriend.fun/:path*",
+      "permanent": true
+    }
   ]
 }
