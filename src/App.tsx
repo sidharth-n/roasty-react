@@ -30,7 +30,7 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           phone_number: `${formData.countryCode}${formData.phone}`,
-          task: `You are calling ${formData.name}. Their job is: ${formData.job}. and this is a crazy embarassing fact about them: ${formData.description}. Start by greeting and conforming their name and when they reply back start roasting them based on these details we have. mainly roast based on their job, name and then the crazy fact. roast them so hard and be as mean as possible. be hilarious too. the roast should be so sarcastic and hard and funny. no buttering.`,
+          task: `You are calling ${formData.name}. Their job is: ${formData.job}. and this is a crazy embarassing fact about them: ${formData.description}. Start by greeting with their name and continue only after their reply and when they reply back start roasting them based on these details we have. mainly roast based on their job, name and then the crazy fact. roast them so hard and be as mean as possible. be hilarious too. the roast should be so sarcastic and hard and funny. no buttering. make it more like a conversation type. not like long speeche.`,
           model: "enhanced",
           language: "en",
           voice: "nat",
