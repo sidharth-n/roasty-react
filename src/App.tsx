@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import RoastForm from './components/RoastForm';
-import SupportModal from './components/SupportModal';
+import CountdownModal from './components/CountdownModal';
 import { TermsModal } from './components/TermsModal';
 import LandingModal from './components/LandingModal';
 import { Analytics } from "@vercel/analytics/react";
@@ -8,7 +8,8 @@ import { Analytics } from "@vercel/analytics/react";
 function App() {
   const [currentStep, setCurrentStep] = useState<'landing' | 'terms' | 'form'>('landing');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSupport, setShowSupport] = useState(false);
+  const [currentCallId, setCurrentCallId] = useState<string | null>(null);
+  const [showCallStatus, setShowCallStatus] = useState(false);
 
   const handleGetStarted = () => {
     setCurrentStep('terms');
@@ -20,6 +21,12 @@ function App() {
 
   const handleDonate = () => {
     window.location.href = 'https://buy.stripe.com/fZefZp3U6dLsgNOdQQ';
+  };
+
+  const handleCloseCallStatus = () => {
+    setShowCallStatus(false);
+    setIsSubmitting(false);
+    setCurrentCallId(null);
   };
 
   const initiateRoastCall = async (formData) => {
@@ -35,23 +42,32 @@ function App() {
           language: "en",
           voice: "nat",
           max_duration: 1.5,
-         first_sentence: `Hello, am I speaking with ${formData.name}?`,
+          first_sentence: `Hello, am I speaking with ${formData.name}?`,
           wait_for_greeting: false,
+          record: true,
+          answered_by_enabled: true,
+          analysis_schema: {
+            call_duration: "number",
+            answered_by: "string",
+            call_successful: "boolean",
+            customer_response: "string"
+          }
         })
       });
 
-      if (!response.ok) throw new Error('Call failed');
-      setShowSupport(true);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to initiate call');
+      }
+      
+      const data = await response.json();
+      setCurrentCallId(data.call_id);
+      setShowCallStatus(true);
     } catch (error) {
       console.error('Call error:', error);
       alert('Failed to make call: ' + error.message);
       setIsSubmitting(false);
     }
-  };
-
-  const handleSupportClose = () => {
-    setShowSupport(false);
-    setIsSubmitting(false);
   };
 
   return (
@@ -74,11 +90,14 @@ function App() {
         onGetStarted={handleGetStarted}
       />
       
-      {currentStep === 'terms' && <TermsModal onAccept={handleTermsAccept} />}
+      {currentStep === 'terms' && (
+        <TermsModal onAccept={handleTermsAccept} />
+      )}
       
-      <SupportModal 
-        isVisible={showSupport}
-        onClose={handleSupportClose}
+      <CountdownModal 
+        isVisible={showCallStatus}
+        currentCallId={currentCallId}
+        onClose={handleCloseCallStatus}
         onDonate={handleDonate}
       />
       
