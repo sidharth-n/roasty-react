@@ -34,7 +34,8 @@ function App() {
           model: "enhanced",
           language: "en",
           voice: "nat",
-          max_duration: 1,
+          max_duration: 1.5,
+          first_sentence: `Hello ${formData.name}! How are you doing today?`,
           wait_for_greeting: false,
         })
       });
