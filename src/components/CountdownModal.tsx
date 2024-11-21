@@ -131,7 +131,7 @@ const CountdownModal: React.FC<CountdownModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-800 p-6 rounded-lg w-full max-w-sm mx-auto text-center relative">
+      <div className="bg-gray-800/90 p-6 rounded-lg w-full max-w-sm mx-auto text-center relative">
         {/* Close Button */}
         <button 
           onClick={onClose}
