@@ -35,7 +35,7 @@ function App() {
           language: "en",
           voice: "nat",
           max_duration: 1.5,
-          first_sentence: `Hello ${formData.name}! How are you doing today?`,
+         first_sentence: `Hello, am I speaking with ${formData.name}?`,
           wait_for_greeting: false,
         })
       });
