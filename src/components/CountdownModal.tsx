@@ -162,11 +162,29 @@ const CountdownModal: React.FC<CountdownModalProps> = ({
     setShareModalVisible(true);
   };
 
-  const handleShare = () => {
-    const message = encodeURIComponent("🔥 Just heard the most savage roast ever! You won't believe what happened! Check it out: [This is a test message]");
-    window.open(`https://wa.me/?text=${message}`, '_blank');
-    setShareCount(prev => Math.min(prev + 1, REQUIRED_SHARES));
-  };
+const SHARE_MESSAGE = "🔥 LMAO! Just found this hilarious AI roasting agent! It's absolutely savage and free to try!\n\n😂 You guys have to check this out - it roasts people in real-time and the responses are absolutely wild!\n\n🎯 Try it now: https://www.roastyourfriend.fun";
+
+const handleShare = async () => {
+  // Try to use Web Share API first (for mobile)
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: '🔥 Epic AI Roasting Agent',
+        text: SHARE_MESSAGE,
+        url: 'https://www.roastyourfriend.fun'
+      });
+      setShareCount(prev => Math.min(prev + 1, REQUIRED_SHARES));
+    } catch (error) {
+      // If user cancels or share fails, fallback to WhatsApp
+      const encodedMessage = encodeURIComponent(SHARE_MESSAGE);
+      window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
+    }
+  } else {
+    // Fallback for desktop or when Share API is not available
+    const encodedMessage = encodeURIComponent(SHARE_MESSAGE);
+    window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
+  }
+};
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -364,47 +382,47 @@ const CountdownModal: React.FC<CountdownModalProps> = ({
               <X className="w-5 h-5" />
             </button>
 
-            {shareCount < REQUIRED_SHARES ? (
-              <>
-                <div className="flex justify-center mb-4">
-                  <Share2 className="w-12 h-12 text-yellow-400" />
-                </div>
-                
-                <h2 className="text-xl font-bold mb-4 gradient-text">
-                  Unlock Your Roast Recording! 🔓
-                </h2>
-                
-                <p className="text-gray-300 mb-6">
-                  Share this epic roast to <span className="text-yellow-400 font-bold">5 WhatsApp groups</span> to get access to the recording!
-                </p>
+          {shareCount < REQUIRED_SHARES ? (
+  <>
+    <div className="flex justify-center mb-4">
+      <Share2 className="w-12 h-12 text-yellow-400" />
+    </div>
+    
+    <h2 className="text-xl font-bold mb-4 gradient-text">
+      Unlock Your Roast Recording! 🔓
+    </h2>
+    
+    <p className="text-gray-300 mb-6">
+      Share this epic roast to <span className="text-yellow-400 font-bold">5 WhatsApp groups</span> to get access to the recording!
+    </p>
 
-                <div className="w-full bg-gray-700 rounded-full h-4 mb-4">
-                  <div 
-                    className="bg-gradient-to-r from-orange-500 to-yellow-500 h-4 rounded-full transition-all duration-500"
-                    style={{ width: `${(shareCount / REQUIRED_SHARES) * 100}%` }}
-                  />
-                </div>
-                
-                <p className="text-gray-400 mb-6">
-                  Shared: {shareCount}/{REQUIRED_SHARES} times
-                </p>
+    <div className="w-full bg-gray-700 rounded-full h-4 mb-4">
+      <div 
+        className="bg-gradient-to-r from-orange-500 to-yellow-500 h-4 rounded-full transition-all duration-500"
+        style={{ width: `${(shareCount / REQUIRED_SHARES) * 100}%` }}
+      />
+    </div>
+    
+    <p className="text-gray-400 mb-6">
+      Shared: {shareCount}/{REQUIRED_SHARES} times
+    </p>
 
-                <button
-                  onClick={handleShare}
-                  className="w-full py-3 px-4 rounded-lg text-gray-900 font-semibold hover:opacity-90 transition-all transform hover:scale-[1.02] shadow-lg mb-4"
-                  style={{ background: 'linear-gradient(135deg, #d8cbb2, #e27b06)' }}
-                >
-                  <div className="flex items-center justify-center space-x-2">
-                    <Share2 className="w-5 h-5" />
-                    <span>Share to WhatsApp Group</span>
-                  </div>
-                </button>
+    <button
+      onClick={handleShare}
+      className="w-full py-3 px-4 rounded-lg text-gray-900 font-semibold hover:opacity-90 transition-all transform hover:scale-[1.02] shadow-lg mb-4"
+      style={{ background: 'linear-gradient(135deg, #d8cbb2, #e27b06)' }}
+    >
+      <div className="flex items-center justify-center space-x-2">
+        <Share2 className="w-5 h-5" />
+        <span>Share to WhatsApp Group</span>
+      </div>
+    </button>
 
-                <p className="text-xs text-gray-500">
-                  *Sharing to contacts won't count towards progress
-                </p>
-              </>
-            ) : (
+    <p className="text-xs text-gray-500">
+      Share using WhatsApp groups to unlock recording
+    </p>
+  </>
+) : (
               <>
                 <div className="flex justify-center mb-4">
                   <Crown className="w-12 h-12 text-yellow-400 animate-pulse" />
