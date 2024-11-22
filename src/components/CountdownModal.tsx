@@ -18,10 +18,11 @@ const PROMO_MESSAGES = [
 
 const REQUIRED_SHARES = 5;
 
-const SHARE_MESSAGE = `Just found something interesting!
-Just tried this AI that does friendly roasts on call
-Actually quite entertaining - worth checking out
-https://www.roastyourfriend.fun`;
+const SHARE_MESSAGE = 
+ `I just found something hilarious!
+An AI that roasts you on call, and it's actually really good
+Had me laughing the whole time
+Try it here: https://www.roastyourfriend.fun`
 
 const CountdownModal: React.FC<CountdownModalProps> = ({ 
   isVisible, 
