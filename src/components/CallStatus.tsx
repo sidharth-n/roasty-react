@@ -78,7 +78,7 @@ const CallStatus: React.FC<CallStatusProps> = ({
 
   const isShortCall = callDetails?.status === 'completed' && 
                      callDetails?.corrected_duration && 
-                     callDetails?.corrected_duration < 20;
+                     callDetails?.corrected_duration < 5;
 
   return (
     <>
@@ -167,7 +167,7 @@ const CallStatus: React.FC<CallStatusProps> = ({
           )}
 
           {callDetails?.status === 'completed' && 
-           callDetails.corrected_duration >= 20 && 
+           callDetails.corrected_duration >= 5 && 
            callDetails.recording_url && (
             <div className="border-t border-gray-700 pt-4">
               <div className="bg-gradient-to-r from-orange-500/10 to-yellow-500/10 rounded-lg p-4 space-y-3">
