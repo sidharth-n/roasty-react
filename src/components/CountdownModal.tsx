@@ -223,7 +223,7 @@ const CountdownModal: React.FC<CountdownModalProps> = ({
           <p className="text-sm font-medium text-gray-300">
             {callDetails?.status === 'completed' 
               ? "Roast level: Extra Crispy 🔥" 
-              : "Hope they have good insurance for these burns!"}
+              : ""}
           </p>
         </div>
       </div>
