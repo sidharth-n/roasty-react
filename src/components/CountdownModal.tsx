@@ -22,9 +22,9 @@ interface CountdownModalProps {
 }
 
 const PROMO_MESSAGES = [
-  "Wanna hear how they got roasted? 🎧",
-  "Recording will be available after the call... ⏳",
-  "Ready to share this epic roast with friends? 🔥"
+  "Wanna hear how they got roasted? ",
+  "Recording will be available after the call... ",
+  "Ready to share this epic roast with friends? "
 ];
 
 const REQUIRED_SHARES = 5;
