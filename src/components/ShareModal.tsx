@@ -41,7 +41,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
             </h2>
             
             <p className="text-gray-300 mb-6">
-              Share this epic roast to <span className="text-yellow-400 font-bold">{requiredShares} WhatsApp groups</span> to get access to the recording!
+              Share this epic roast app to <span className="text-yellow-400 font-bold">{requiredShares} WhatsApp groups</span> to get access to the recording!
             </p>
 
             <div className="w-full bg-gray-700 rounded-full h-4 mb-4">
