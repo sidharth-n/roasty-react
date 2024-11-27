@@ -14,7 +14,7 @@ import {
   LinkedinIcon,
   Twitter
 } from 'lucide-react';
-
+// declare var Razorpay: any;
 interface CountdownModalProps {
   isVisible: boolean;
   currentCallId: string | null;
@@ -162,11 +162,107 @@ const CountdownModal: React.FC<CountdownModalProps> = ({
     };
   }, [isVisible, currentCallId]);
 
-  const handleGetRecording = () => {
-    const message = encodeURIComponent(`Hey, I need the roasted recording for the call ID: ${currentCallId}`);
-    window.location.href = `https://wa.me/+919746938443?text=${message}`;
+  const loadRazorpayScript = (): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error("Failed to load Razorpay script"));
+      document.body.appendChild(script);
+    });
   };
 
+  const handleGetRecording = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault(); // Prevent default form submission behavior
+  
+    // Payment details
+    const amount = 100 * 100; // Amount in subunits (paise for INR)
+    const currency = "INR";
+    const receipt = Math.random().toString(36).substring(2, 12);
+  
+    try {
+      await loadRazorpayScript();
+      // Step 1: Create an order on the backend
+      const response = await fetch("http://127.0.0.1:5000/order", {
+        method: "POST",
+        body: JSON.stringify({
+          amount,
+          currency,
+          receipt
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+  
+      const order = await response.json();
+      console.log("Order created:", order);
+  
+      // Step 2: Razorpay payment options
+      const options: RazorpayOptions = {
+        key: "rzp_test_Uvw72aMPJtrohq", // Your Razorpay test Key ID
+        amount, // Amount in currency subunits
+        currency,
+        name: "Santa Cruze", // Your business name
+        description: "Call with Santa Claus",
+        image: "https://example.com/your_logo", // Your logo URL
+        order_id: order.id, // Razorpay order ID from backend response
+        handler: async function (response: any) {
+          // Successful payment handling
+          const body={
+            ...response
+          };
+          const validateRes= await fetch("http://127.0.0.1:5000/order/validate",{
+            method:"POST",
+            body:JSON.stringify(body),
+            headers:{
+              "Content-Type": "application/json",
+            },
+          })
+          const jsonRes=await validateRes.json();
+          console.log(jsonRes);
+
+          if (jsonRes.msg === "success") {
+            const message = encodeURIComponent(`Hey, I need the roasted recording for the call ID: ${currentCallId}`);
+            window.location.href = `https://wa.me/+919746938443?text=${message}`;
+          }
+        },
+        prefill: {
+          name: "Ajnas N B", // Prefill customer name
+          email: "ajnas@email.com", // Prefill customer email
+          contact: "0000000000", // Prefill customer phone
+        },
+        notes: {
+          address: "Razorpay Corporate Office",
+        },
+        theme: {
+          color: "#3399cc", // Theme color for the Razorpay modal
+        },
+      };
+  
+      // Step 3: Initialize Razorpay
+      const rzp1 = new (window as any).Razorpay(options);
+  
+      // Step 4: Handle payment failures
+      rzp1.on("payment.failed", function (response: any) {
+        console.error("Payment failed:", response);
+        alert(`Error Code: ${response.error.code}`);
+        alert(`Description: ${response.error.description}`);
+        alert(`Source: ${response.error.source}`);
+        alert(`Step: ${response.error.step}`);
+        alert(`Reason: ${response.error.reason}`);
+        alert(`Order ID: ${response.error.metadata.order_id}`);
+        alert(`Payment ID: ${response.error.metadata.payment_id}`);
+      });
+  
+      // Open Razorpay modal
+      rzp1.open();
+    } catch (error) {
+      console.error("Error creating order or initializing Razorpay:", error);
+      alert("Failed to initiate payment. Please try again later.");
+    }
+  };
+  
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
