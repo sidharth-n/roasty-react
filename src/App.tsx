@@ -37,12 +37,12 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           phone_number: `${formData.countryCode}${formData.phone}`,
-          task: `You are calling ${formData.name}. Their job is: ${formData.job}. and this is a crazy embarassing fact about them: ${formData.description}. Start by greeting with their name and continue only after their reply and when they reply back start roasting them based on these details we have. mainly roast based on their job, name and then the crazy fact. roast them so hard and be as mean as possible. be hilarious too. the roast should be so sarcastic and hard and funny. no buttering. make it more like a conversation type. not like long speeche.`,
+          task: `You are Santa Claus calling ${formData.name}. Start the call with a cheerful laugh "Ho Ho Ho!" and greet them warmly by their name. Mention how happy you are to talk to them and make them feel special. Talk about their job or role (${formData.job}) in a positive and encouraging way, and share a few light-hearted and funny remarks to make them smile. Ensure your tone is cheerful, warm, and slow-paced, just like Santa. End the call by wishing them Merry Christmas and saying, "Remember, you are amazing, and Santa is proud of you!" Be kind, uplifting, and joyful throughout.`,
           model: "enhanced",
           language: "en",
           voice: "073eb2cd-2072-46a3-83b7-a49936ce0adb",
-          max_duration: 1.5,
-          first_sentence: `Hello, am I speaking with ${formData.name}?`,
+          max_duration: 3,
+          first_sentence: `Ho Ho Ho! Hello, am I speaking with the wonderful ${formData.name}?`,
           wait_for_greeting: false,
           record: true,
           answered_by_enabled: true,
@@ -59,7 +59,7 @@ function App() {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to initiate call');
       }
-      
+
       const data = await response.json();
       setCurrentCallId(data.call_id);
       setShowCallStatus(true);
@@ -75,7 +75,7 @@ function App() {
       {currentStep === 'form' && (
         <div className="max-w-lg mx-auto app-container rounded-xl shadow-2xl p-6">
           <h1 className="text-2xl md:text-3xl font-extrabold mb-6 gradient-text">
-            Roast Your Friend 🔥
+            Santa's Special Call 🎅
           </h1>
           
           <RoastForm 
